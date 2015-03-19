@@ -1,13 +1,18 @@
 {
-    "name": "SpaceRender",
-    "scripts": {
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/garlicPasta/SpaceRender"
-    },
-    "dependencies": {},
-    "devDependencies": {
-        "mocha" : "~1.2"
-    }
+  "name": "SpaceRender",
+  "scripts": {
+    "test": "mocha "
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/garlicPasta/SpaceRender"
+  },
+  "dependencies": {
+    "coffee-script": "~1.9.1",
+    "pixi.js": "git://github.com/GoodBoyDigital/pixi.js"
+  },
+  "devDependencies": {
+    "mocha": "~1.2",
+    "chai": "~2.1"
+  }
 }

@@ -11,8 +11,7 @@ class Camera
     initGameObjects: (gObjectList)  ->
         @xObjects = []
         @yObjects = []
-        
-# Same Objects but different lists
+        # Same Objects but different lists
         @xObjects.push elem for elem in gObjectList
         @yObjects.push elem for elem in gObjectList
 
@@ -26,14 +25,15 @@ class Camera
             updateXObjects(delta[0])
             updateYObjects(delta[1])
 
-    sortByY: ->
         
-    _sortByX: ->
+    _sortX: ->
 
     _sortByY: ->
 
 
 
 
-    
+module.exports = {
+    Camera
+}    
 

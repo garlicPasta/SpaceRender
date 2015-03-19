@@ -1,4 +1,10 @@
-describe 'Task instance', ->
+chai = require 'chai'
+chai.should()
+
+{Camera} = require '../src/Camera.coffee'
+
+
+describe 'Camera instance', ->
     task1 = task2 = null
     it 'should have a name', ->
         task1 = new Task 'feed the cat'
