@@ -12,7 +12,9 @@
     "pixi.js": "git://github.com/GoodBoyDigital/pixi.js"
   },
   "devDependencies": {
+    "chai": "~2.1",
+    "gulp": "^3.8.11",
     "mocha": "~1.2",
-    "chai": "~2.1"
+    "watchify": "~2.4"
   }
 }

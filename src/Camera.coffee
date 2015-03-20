@@ -1,3 +1,5 @@
+Pixi = require 'pixi.js'
+
 
 class Camera
     constructor: (width, height)->
@@ -14,6 +16,7 @@ class Camera
         # Same Objects but different lists
         @xObjects.push elem for elem in gObjectList
         @yObjects.push elem for elem in gObjectList
+        @_sortX
 
 
     scroll:(delta) ->
@@ -26,11 +29,8 @@ class Camera
             updateYObjects(delta[1])
 
         
-    _sortX: ->
-
-    _sortByY: ->
-
-
+    _sortX: -> @xObjects.sort((a,b) -> return a.x - b.x)
+    _sortY: -> @yObjects.sort((a,b) -> return a.y - b.y)
 
 
 module.exports = {
