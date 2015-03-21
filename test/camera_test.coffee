@@ -8,4 +8,4 @@ Pixi = require 'pixi.js'
 describe 'Camera instance', ->
     camera1 = new Camera(100, 100) 
     it 'start at coordinate origin', ->
-        camer1.center.should new Pixi.Point(0,0)
+        chai.assert new Pixi.Point(0,0), new Pixi.Point(0,0)

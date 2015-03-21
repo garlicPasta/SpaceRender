@@ -8,27 +8,23 @@ browserify = require 'browserify'
 shell = require 'gulp-shell'
 coffeelint = require 'gulp-coffeelint'
 
-watchify.args.extensions = ['.coffee']
-bundler = watchify(browserify('./src/RenderService.coffee', watchify.args))
-
 bundle = ->
     return bundler.bundle()
         # log errors if they happen
         .on('error', gutil.log.bind(gutil, 'browserify error'))
         .pipe(source('./bundle.js'))
-         # optional, remove if you dont want sourcemaps
-            .pipe(buffer())
-            .pipe(sourcemaps.init({loadmaps: true})) # loads map from browserify file
-            .pipe(sourcemaps.write('./')) # writes .map file
-        .pipe(gulp.dest('./build'))
+        .pipe(gulp.dest('./js'))
+
+watchify.args.extensions = ['.coffee']
+bundler = watchify(browserify('./src/RenderService.coffee', watchify.args))
+bundler.transform('coffeeify')
+bundler.on('update', bundle) # on any dep update, runs the bundler
+bundler.on('log', gutil.log) # output build logs to terminal
+
+gulp.task 'browserify', bundle
 
 # add any other browserify options or transforms here
 #bundler.extensions(['.coffee'])
-bundler.transform('coffeeify')
-
-gulp.task 'js', bundle
-bundler.on('update', bundle) # on any dep update, runs the bundler
-bundler.on('log', gutil.log) # output build logs to terminal
 
 gulp.task 'default', ['js', 'nodemon']
 
@@ -47,4 +43,3 @@ gulp.task 'lint', ->
         .pipe(coffeelint())
         .pipe(coffeelint.reporter())
         .pipe(coffeelint.reporter('fail'))
-
