@@ -23,3 +23,6 @@ describe 'Camera instance', ->
     it 'can scroll', ->
         camera1.scroll()
         assert (camera1.countGameObjects() > 0), 'Game object cant be added'
+    it 'can if point is in intervall', ->
+        assert camera1._isInInterval(-7, 77, 5)
+        assert camera1._isInInterval(-79, 77, -2)
