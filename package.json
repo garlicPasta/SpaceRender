@@ -2,6 +2,7 @@
   "name": "SpaceRender",
   "scripts": {
     "test": "mochify --phantomjs ./node_modules/phantomjs/bin/phantomjs --transform coffeeify",
+    "test-debug": "mochify --phantomjs ./node_modules/phantomjs/bin/phantomjs --transform coffeeify --debug",
     "nodemon": "nodemon -w index.html -w src/ server.js"
   },
   "repository": {

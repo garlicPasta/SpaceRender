@@ -8,7 +8,7 @@ class Camera
         @yObjects = []
         @center = new Vec2d(0,0) # absolute coordinates
         @last_center = new Vec2d(0,0) # absolute coordinates
-        @radius = Math.ceil(Max.max(width, length))
+        @radius = Math.ceil(Math.max(width, length))
         @xPointer= [0,0] #(first element, second element)
         @yPointer= [0,0] #(first Element, second element)
 
@@ -36,23 +36,37 @@ class Camera
     _sortX: -> @xObjects.sort((a,b) -> return a.x - b.x)
     _sortY: -> @yObjects.sort((a,b) -> return a.y - b.y)
 
-    _updatePointer:(forward, pointer, list, dim) ->
+    _initPointer: ->
+        @xPointer = @_updatePointer(true, @xPointer, 'x')
+        @yPointer = @_updatePointer(true, @yPointer, 'y')
+
+    _updatePointer:(forward, pointer, dim, listLength) ->
         left = pointer[0]
         right = pointer[1]
         if forward
-            left++ until @_isVisible dim list[left] and left < list.length
-            right++ until @_isVisible dim list[left] and right < list.length
-            right++ until @_isVisible dim list[left] and right < list.length
+            right++ until @_isVisible dim right and right < listLength and not @_cameraOverJump dim forward
+            right++ while @_isVisible dim right and right < listLength and not @_cameraOverJump dim forward 
+            left++ until @_isVisible dim left and left < list.length and left < right
         else
-            left-- until @_isVisible dim list[left] and left < list.length
-            right-- until @_isVisible dim list[left] and right < list.length
-            right-- until @_isVisible dim list[left] and right < list.length
+            right-- until @_isVisible dim right and right < list.length and not @_cameraOverJump dim forward
+            right-- while @_isVisible dim right and right < list.length and not @_cameraOverJump dim forward
+            left-- until @_isVisible dim left and left < list.length and right < left
         return [left, right]
 
-    _isVisible: (dim, p) ->
+    _isVisible: (dim, i) ->
         if dim == 'x'
-                return @center.x - @radius <= p <= @center.x + radius
-        return @center.y - @radius <= p <= @center.y + radius
+                return @center.x - @radius <= @xObjects[i].x <= @center.x + @radius
+        return @center.y - @radius <= @xObjects[i].y <= @center.y + @radius
+
+    _cameraOverJump: (dim, forward,  index) ->
+        if dim == 'x'
+            if forward
+                return @center.x + @radius < @xObjects[index].x
+            return @center.x - @radius > @xObjects[index].x
+        else
+            if forward
+                return @center.y + @radius < @xObjects[index].y
+            return @center.y - @radius > @xObjects[index].y
 
 
 module.exports = {

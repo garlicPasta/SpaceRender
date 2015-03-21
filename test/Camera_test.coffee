@@ -13,16 +13,14 @@ describe 'Camera instance', ->
         assert (camera1.center.x == 0), 'Camera doesnt spawn on origin'
         assert (camera1.center.y == 0), 'Camera doesnt spawn on origin'
     it 'can manage game Objects', ->
-        gameObjects = (new GameObject(x,1) for x in [1..10])
-        camera1.addGameObjects gameObjects
-        assert (camera1.countGameObjects() > 0), 'Game object cant be added'
-    it 'can manage game Objects', ->
         gameObjects = (new GameObject(x * 33 + 10 ,1) for x in [1..10])
         camera1.addGameObjects gameObjects
-        assert (camera1.countGameObjects() > 0), 'Game object cant be added'
+        assert (camera1.countGameObjects() == 10), 'Game object cant be added'
     it 'can scroll', ->
-        camera1.scroll()
         assert (camera1.countGameObjects() > 0), 'Game object cant be added'
-    it 'can if point is in intervall', ->
-        assert camera1._isInInterval(-7, 77, 5)
-        assert camera1._isInInterval(-79, 77, -2)
+    it 'determines if point is in sight', ->
+        assert camera1._isVisible('x', 0)
+        assert not camera1._isVisible('x', 4)
+        assert camera1._isVisible('y', 7)
+    it 'pointers inits properly', ->
+
