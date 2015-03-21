@@ -44,13 +44,13 @@ class Camera
         left = pointer[0]
         right = pointer[1]
         if forward
-            right++ until @_isVisible dim,right and right < listLength and not @_cameraOverJump dim,forward
-            right++ while @_isVisible dim,right and right < listLength and not @_cameraOverJump dim,forward 
-            left++ until @_isVisible dim,left and left < list.length and left < right
+            right++ until right < listLength and @_isVisible(dim,right) and not @_cameraOverJump(dim,forward, right)
+            right++ while right < listLength and @_isVisible(dim,right) and not @_cameraOverJump(dim,forward, right)
+            left++ until left < right and @_isVisible(dim,left) and left < listLength
         else
-            right-- until @_isVisible dim,right and right < list.length and not @_cameraOverJump dim,forward
-            right-- while @_isVisible dim,right and right < list.length and not @_cameraOverJump dim,forward
-            left-- until @_isVisible dim,left and left < list.length and right < left
+            left-- until 0 <= left and @_isVisible(dim,left) and not @_cameraOverJump(dim,forward, left)
+            left-- while 0 <= left  and @_isVisible(dim,left) and not @_cameraOverJump(dim,forwardm, left)
+            right-- until right < left and  @_isVisible(dim,right) and right < listLength
         return [left, right]
 
     _isVisible: (dim, i) ->
@@ -58,17 +58,15 @@ class Camera
                 return @center.x - @radius <= @xObjects[i].x <= @center.x + @radius
         return @center.y - @radius <= @xObjects[i].y <= @center.y + @radius
 
-    _cameraOverJump: (dim, forward,  index) ->
-        if index >= @xObjects.length
-            debugger
+    _cameraOverJump: (dim, forward, i) ->
         if dim == 'x'
             if forward
-                return @center.x + @radius < @xObjects[index].x
-            return @center.x - @radius > @xObjects[index].x
+                return @center.x + @radius < @xObjects[i].x
+            return @center.x - @radius > @xObjects[i].x
         else
             if forward
-                return @center.y + @radius < @xObjects[index].y
-            return @center.y - @radius > @xObjects[index].y
+                return @center.y + @radius < @xObjects[i].y
+            return @center.y - @radius > @xObjects[i].y
 
 
 module.exports = {
