@@ -14,6 +14,9 @@ var app = express()
         res.sendfile(path.join(publicDir, 'index.html'))
     })
 
+    app.use(express.static(__dirname + '/js'));
+    app.use(express.static(__dirname + '/assets'));
+
 var server = http.createServer(app)
 
     //reload code here 

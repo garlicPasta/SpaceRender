@@ -16,7 +16,8 @@ bundle = ->
         .pipe(gulp.dest('./js'))
 
 watchify.args.extensions = ['.coffee']
-bundler = watchify(browserify('./src/RenderService.coffee', watchify.args))
+
+bundler = watchify(browserify('./src/main', watchify.args))
 bundler.transform('coffeeify')
 bundler.on('update', bundle) # on any dep update, runs the bundler
 bundler.on('log', gutil.log) # output build logs to terminal
@@ -26,7 +27,7 @@ gulp.task 'browserify', bundle
 # add any other browserify options or transforms here
 #bundler.extensions(['.coffee'])
 
-gulp.task 'default', ['js', 'nodemon']
+gulp.task 'default', ['browserify', 'nodemon']
 
 gulp.task('nodemon', shell.task([
  'npm run-script nodemon'

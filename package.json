@@ -18,6 +18,7 @@
     "coffee-script": "^1.9.1",
     "coffeeify": "^0.6.0",
     "express": "^4.12.3",
+    "fps-meter": "^0.1.1",
     "gulp": "^3.8.11",
     "gulp-coffeelint": "^0.4.0",
     "gulp-shell": "^0.3.0",
