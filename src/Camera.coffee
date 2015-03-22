@@ -8,7 +8,7 @@ class Camera
         @yObjects = []
         @center = new Vec2d(0,0) # absolute coordinates
         @last_center = new Vec2d(0,0) # absolute coordinates
-        @radius = Math.ceil(Math.max(width, length))
+        @radius = Math.ceil(Math.max(width, length) / 2)
         @xPointer= [0,0] #(first element, second element)
         @yPointer= [0,0] #(first Element, second element)
 
@@ -22,16 +22,22 @@ class Camera
     countGameObjects: ->
         return @xObjects.length
 
+    setDisplayCords:(obj) ->
+        displayOrigin = [@center.x - @radius, @center.y - @radius]
+        for i in [@xPointer[0].. @xPointer[1]]
+            do (i) ->
+                @xObjects[i].setDispCords displayOrigin
+
     scroll:(delta) ->
-        @center = @last_center
+        @last_center = @center.clone()
         @center.add(delta)
 
         if delta.x != 0 
             forward = @center.x > @last_center.x
-            @xPointer = _updatePointer forward, @xPointer, 'x', @xObjects.length 
-        else if delta.y != 0 
+            @xPointer = @_updatePointer forward, @xPointer, 'x', @xObjects.length 
+        if delta.y != 0 
             forward = @center.y > @last_center.y
-            @yPointer = _updatePointer forward, @yPointer, 'y', @yObjects.length
+            @yPointer = @_updatePointer forward, @yPointer, 'y', @yObjects.length
 
     _sortX: -> @xObjects.sort((a,b) -> return a.x - b.x)
     _sortY: -> @yObjects.sort((a,b) -> return a.y - b.y)
@@ -44,13 +50,14 @@ class Camera
         left = pointer[0]
         right = pointer[1]
         if forward
-            right++ until right < listLength and @_isVisible(dim,right) and not @_cameraOverJump(dim,forward, right)
-            right++ while right < listLength and @_isVisible(dim,right) and not @_cameraOverJump(dim,forward, right)
-            left++ until left < right and @_isVisible(dim,left) and left < listLength
+            right++ while right+1 < listLength and not @_isVisible(dim,right+1) and not @_cameraOverJump(dim,forward, right+1)
+            right++ while right+1 < listLength and @_isVisible(dim,right+1) and not @_cameraOverJump(dim,forward, right+1)
+            debugger
+            left++ until left == right or @_isVisible(dim,left)
         else
-            left-- until 0 <= left and @_isVisible(dim,left) and not @_cameraOverJump(dim,forward, left)
-            left-- while 0 <= left  and @_isVisible(dim,left) and not @_cameraOverJump(dim,forwardm, left)
-            right-- until right < left and  @_isVisible(dim,right) and right < listLength
+            left-- while 0 <= left-1 and not @_isVisible(dim,left-1) and not @_cameraOverJump(dim,forward, left-1)
+            left-- while 0 <= left-1  and @_isVisible(dim,left-1) and not @_cameraOverJump(dim,forwardm, left-1)
+            right-- until right == left or @_isVisible(dim,right)
         return [left, right]
 
     _isVisible: (dim, i) ->

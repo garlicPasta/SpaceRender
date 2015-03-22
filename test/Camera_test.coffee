@@ -5,6 +5,7 @@ assert = chai.assert
 Pixi = require 'pixi.js'
 { Camera } = require '../src/Camera.coffee'
 { GameObject } = require '../src/GameObject.coffee'
+{ Vec2d } = require '../src/Vec2d.coffee'
 
 
 describe 'Camera instance', ->
@@ -22,5 +23,13 @@ describe 'Camera instance', ->
         assert camera1._isVisible('y', 7)
     it 'pointers inits properly', ->
         camera1._initPointer()
-        #assert camera1.xPointer[0] < camera1.xPointer[0] 
-
+        debugger
+        assert camera1.xPointer[0] == 0
+        assert camera1.xPointer[1] == 2
+        assert camera1.yPointer[0] == 0 
+        assert camera1.yPointer[1] == 9
+    it 'can scroll', ->
+        camera1.scroll(new Vec2d(50, 100))
+        debugger
+        assert camera1.yPointer[0] == 9 
+        assert camera1.yPointer[1] == 9
