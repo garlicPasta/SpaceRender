@@ -25,20 +25,18 @@ class Camera
         if  deltaXPointer < deltaYPointer
             if deltaXPointer == 1 
                 return []
-            return @xObjects[@xPointer[0]+1..@xPointer[1]-1].filter((obj)-> obj.visibleY)
+            visibleObjects = @xObjects[@xPointer[0]+1..@xPointer[1]-1].filter((obj)-> obj.visibleY)
         else
             if deltaYPointer == 1 
                 return []
-            return @yObjects[@yPointer[0]+1..@yPointer[1]-1].filter((obj)-> obj.visibleX)
+            visibleObjects = @yObjects[@yPointer[0]+1..@yPointer[1]-1].filter((obj)-> obj.visibleX)
+
+        dispOrigin = [@center.x - @radius, @center.y - @radius]
+        obj.setDispCords(dispOrigin) for obj in visibleObjects
+        return visibleObjects
 
     countGameObjects: ->
         return @xObjects.length
-
-    _setDisplayCords:() ->
-        displayOrigin = [@center.x - @radius, @center.y - @radius]
-        for i in [@xPointer[0].. @xPointer[1]]
-            do (i) ->
-                @xObjects[i].setDispCords displayOrigin
 
     scroll:(delta) ->
         @last_center = @center.clone()

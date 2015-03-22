@@ -5,8 +5,8 @@ class GameObject
         @visibleX = false
         @visibleY = false
     # cameraOrigin is the top left corner of the screen
-    setDispCords: (cameraOrigin) ->
-        @dispCords = new Vec2d(@x - @dispOrigin.x, @y - @dispOrigin.y)
+    setDispCords: (dispOrigin) ->
+        @dispCords = new Vec2d(@x - dispOrigin.x, @y - dispOrigin.y)
 
 module.exports = {
     GameObject
