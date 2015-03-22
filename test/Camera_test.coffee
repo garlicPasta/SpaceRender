@@ -23,13 +23,20 @@ describe 'Camera instance', ->
         assert camera1._isVisible('y', 7)
     it 'pointers inits properly', ->
         camera1._initPointer()
-        debugger
-        assert camera1.xPointer[0] == 0
-        assert camera1.xPointer[1] == 2
-        assert camera1.yPointer[0] == 0 
-        assert camera1.yPointer[1] == 9
+        assert camera1.xPointer[0] == -1
+        assert camera1.xPointer[1] == 3
+        assert camera1.yPointer[0] == -1 
+        assert camera1.yPointer[1] == 10
+    it 'returns Array when visible GameObjects', ->
+        visibleObjects = camera1.getVisibleGameObjects()
+        assert visibleObjects.length == 3
     it 'can scroll', ->
         camera1.scroll(new Vec2d(50, 100))
-        debugger
         assert camera1.yPointer[0] == 9 
-        assert camera1.yPointer[1] == 9
+        assert camera1.yPointer[1] == 10
+    it 'marks visible items', ->
+        for obj in camera1.xObjects
+            assert obj.visibleY == false
+    it 'returns empty Array when no visible GameObjects', ->
+        visibleObjects = camera1.getVisibleGameObjects()
+        assert visibleObjects.length == 0
