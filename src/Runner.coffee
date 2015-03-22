@@ -39,7 +39,7 @@ class Runner
         
         planets = []
 
-        for i in [0..20]
+        for i in [0..200]
             do ->
                 planets.push(new PIXI.Sprite(texture));
                 planets[i].anchor.x = 0.5;
